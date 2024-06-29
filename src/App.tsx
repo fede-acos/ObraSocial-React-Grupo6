@@ -1,15 +1,8 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
-
+import Login from "./pages/Login";
+import Router from "./routes/Router";
 function App() {
-  return (
-    <>
-      <div className="dark">
-        <Card>
-          <CardHeader> Hello world!</CardHeader>
-        </Card>
-      </div>
-    </>
-  );
+  return <Router />;
 }
 
 export default App;
