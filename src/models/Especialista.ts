@@ -1,6 +1,6 @@
 import { Ubicacion } from "./Ubicacion";
 
-export interface Especialistas {
+export interface Especialista {
   nombre: string;
   especialidad: string;
   horarioEntrada: string;
