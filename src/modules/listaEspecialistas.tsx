@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchData } from '../services/getEspecialistas';
 import { Especialista } from '../models/Especialista';
-import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Avatar, Button, CircularProgress} from "@nextui-org/react";
+
 
 const ListaEspecialistas: React.FC = () => {
   const [data, setData] = useState<Especialista[]>([]);
@@ -24,7 +25,11 @@ const ListaEspecialistas: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;// agregar circular progress
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <CircularProgress size="lg" label="Loading..." />
+      </div>
+    );
   }
 
   return ( // falta cambiar avatar
