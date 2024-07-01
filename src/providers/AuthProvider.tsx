@@ -1,12 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "jwt-decode/";
-import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 // TODO
 //Mover types a otra carpeta
