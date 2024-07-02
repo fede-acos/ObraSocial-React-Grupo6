@@ -7,10 +7,13 @@ import {Navbar,
         }
 from "@nextui-org/react";
 
+import Logo from "../assets/logo.svg";
+
 function Header() {
   return (
     <Navbar>
       <NavbarBrand>
+        <img src={Logo} alt="AllMedin Logo" />
         <p className="font-bold text-inherit">AllMedin</p>
       </NavbarBrand>
       <NavbarContent justify="center">
