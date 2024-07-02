@@ -30,10 +30,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const token = localStorage.getItem("token");
     console.log("test1" + token);
     if (token) {
-      console.log("test2");
       const decodedToken = jwtDecode(token) as CustomJwtPayload;
       setCurrentUser(decodedToken);
-      console.log(currentUser);
     }
     setIsLoading(false);
   }, []);
