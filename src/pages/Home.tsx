@@ -1,9 +1,9 @@
-import { Button } from "@nextui-org/react";
+import { Button, Card, CardBody } from "@nextui-org/react";
 import { useEntities, useEntity } from "../services/useApi";
-import { SpecialistDto, useSpecialist } from "../services/useSpecialist";
+import { SpecialistDto } from "../services/useSpecialist";
 function Home() {
   const { data, isLoading, isError } = useEntities<SpecialistDto>(
-    "specialist",
+    "especialistas",
     "http://localhost:8080/especialistas"
   );
 
@@ -24,29 +24,43 @@ function Home() {
     },
   };
 
+  type TurnoDto = {
+    turnoId: number;
+    pacienteId: number;
+    especialistaId: number;
+    fecha: string;
+    hora: string;
+    motivoConsulta: string;
+  };
+
   const handleAdd = async (newEntity: SpecialistDto) => {
     await add.mutateAsync(newEntity);
   };
   const handleRemove = async () => {
-    await remove.mutateAsync("6");
+    await remove.mutateAsync("102");
   };
 
-  /*   const { save, remove, getAll, update } = useSpecialist();
-
-  const { data, isLoading, isError } = getAll();
-  */
-
-  if (isLoading) return <h1>Loading...</h1>;
-
-  if (isError) return <h1>Error</h1>;
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   console.log(data);
-
   return (
-    <div>
-      Home
-      <Button onClick={() => handleAdd(test)}>AGREGAR </Button>
-      <Button onClick={() => handleRemove()}>Remover </Button>
+    <div className="container">
+      <Button onClick={() => handleAdd(test)}>Agregar</Button>
+      <Button onClick={() => handleRemove()}>Eliminar</Button>
+
+      <div className="mt-10">
+        {data?.map((specialist) => (
+          <div key={specialist.especialidad + specialist.nombre}>
+            <Card>
+              <CardBody>
+                {`${specialist.nombre} ${specialist.especialidad}`}
+              </CardBody>
+            </Card>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
