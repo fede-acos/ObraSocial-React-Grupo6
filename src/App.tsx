@@ -1,14 +1,13 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-
+import { NextUIProvider } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import Router from "./routes/Router";
 function App() {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <div className="dark">
-        <Card>
-          <CardHeader> Hello world!</CardHeader>
-        </Card>
-      </div>
-    </>
+    <NextUIProvider navigate={navigate}>
+      <Router />
+    </NextUIProvider>
   );
 }
 
