@@ -1,8 +1,14 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import Login from "./pages/Login";
+import { NextUIProvider } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 import Router from "./routes/Router";
 function App() {
-  return <Router />;
+  const navigate = useNavigate();
+
+  return (
+    <NextUIProvider navigate={navigate}>
+      <Router />
+    </NextUIProvider>
+  );
 }
 
 export default App;
