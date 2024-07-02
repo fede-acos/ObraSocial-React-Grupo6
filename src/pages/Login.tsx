@@ -12,7 +12,6 @@ function Login() {
   const handleLogin = async () => {
     mutate({ username, password });
   };
-  console.log(auth?.currentUser);
 
   return (
     <div>
