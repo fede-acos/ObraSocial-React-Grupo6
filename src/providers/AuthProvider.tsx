@@ -1,5 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // TODO
 //Mover types a otra carpeta
@@ -25,6 +26,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [currentUser, setCurrentUser] = useState<CustomJwtPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,10 +43,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.setItem("token", token);
     const decodedToken = jwtDecode(token) as CustomJwtPayload;
     setCurrentUser(decodedToken);
+    navigate("/");
   };
   const logout = () => {
     localStorage.removeItem("token");
     setCurrentUser(null);
+    navigate("/login");
   };
 
   return (

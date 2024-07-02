@@ -1,4 +1,3 @@
-import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
@@ -8,13 +7,13 @@ function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient();
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <NextUIProvider>{children}</NextUIProvider>;
+          {children}
         </QueryClientProvider>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
