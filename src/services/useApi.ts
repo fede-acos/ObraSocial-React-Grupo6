@@ -4,8 +4,8 @@ import { axiosInstance } from "../config/axiosConfig";
 export const useEntities = <T>(key: string, url: string) => {
   return useQuery({
     queryKey: [key],
-    queryFn: async ({ signal }): Promise<T[]> => {
-      const { data } = await axiosInstance.get(url, { signal });
+    queryFn: async (): Promise<T[]> => {
+      const { data } = await axiosInstance.get(url);
       return data;
     },
   });
@@ -26,8 +26,8 @@ export const useEntity = <T>(
 
   const entity = useQuery<T, Error>({
     queryKey: [key, id],
-    queryFn: async ({ signal }): Promise<T> => {
-      const { data } = await axiosInstance.get<T>(`${url}/${id}`, { signal });
+    queryFn: async (): Promise<T> => {
+      const { data } = await axiosInstance.get<T>(`${url}/${id}`);
       return data;
     },
     enabled: !!id,
@@ -39,6 +39,7 @@ export const useEntity = <T>(
       return data;
     },
     onSuccess: (addedEntity) => {
+      invalidateActive();
       //TODO Optimistic Updates.
     },
   });
@@ -49,6 +50,7 @@ export const useEntity = <T>(
       return data;
     },
     onSuccess: (addedEntity) => {
+      invalidateActive();
       //TODO Optimistic Updates.
     },
   });
@@ -59,6 +61,7 @@ export const useEntity = <T>(
       return id; //quizas nuestra api deberia devolver el id del elemento borrado.
     },
     onSuccess: (deleted) => {
+      invalidateActive();
       //TODO Optimistic Updates.
     },
   });
