@@ -3,14 +3,14 @@ import {Link} from "@nextui-org/react"
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-4">
+    <footer className="bg-black text-white py-4 bottom-0 w-full sticky">
       <div className="mx-8 flex justify-between">
         <div>
           <h6 className="text-lg font-semibold">Hecho por:</h6>
           <ul>
-            <li><Link href="https://github.com/fede-acos">Federico Acosta</Link></li>
-            <li><Link href="https://github.com/NicoBrites">Nicolas Brites</Link></li>
-            <li><Link href="https://github.com/DavidBernhardt">David Bernhardt</Link></li>
+            <li><Link isExternal href="https://github.com/fede-acos">Federico Acosta</Link></li>
+            <li><Link isExternal href="https://github.com/NicoBrites">Nicolas Brites</Link></li>
+            <li><Link isExternal href="https://github.com/DavidBernhardt">David Bernhardt</Link></li>
           </ul>
         </div>
         <div className="">
