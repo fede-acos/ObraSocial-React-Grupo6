@@ -26,6 +26,7 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         },
     })
     
+    const [formattedDate, setFormattedDate] = useState<string | null>(null); 
 
     const { add } = useEntity<TurnoDto>(
         "turno",
@@ -36,9 +37,6 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
     const handleAdd = async (newEntity: TurnoDto) => {
         await add.mutateAsync(newEntity);
     };
-
-
-    const [formattedDate, setFormattedDate] = useState<string | null>(null);
 
     const isDateUnavailable = (date : DateValue) =>
         isWeekend(date, locale) ;
@@ -78,8 +76,6 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         return timeSlots;
     };
 
-    const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
-
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (data.selectedDate) {
             const dateObj = new Date(data.selectedDate);
@@ -99,10 +95,9 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
             }
         }
 
-        console.log(data)
     }   
 
-
+    const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form-container">
