@@ -115,7 +115,7 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
             <Controller
             name="selectedDate"
             control={control}
-            rules={{ required: "pedilo" }}
+            rules={{ required: "La fecha es obligatoria" }}
             render={({ field }) => (
             <Calendar
                 calendarWidth ="300px"
@@ -136,7 +136,7 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         <Controller
             name="motivoConsulta"
             control={control}
-            rules={{ required: "pedilo" }}
+            rules={{ required: "El motivo es obligatorio" }}
             render={({ field }) => (
             <>
                 <Textarea
@@ -158,7 +158,7 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
                     key={index}
                     name="selectedButtonTime"
                     control={control}
-                    rules={{ required: "pedilo" }}
+                    rules={{ required: "El horario es obligatorio" }}
                     render={({ field }) => (
                     <Button
                         onClick={() => field.onChange(time)}
@@ -170,9 +170,9 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
                     </Button>
                     )}
                 />
-                ))}
-                <p className="error">{errors.selectedButtonTime?.message}</p>
+                ))}   
             </div>
+            <p className="error">{errors.selectedButtonTime?.message}</p>
         </div>
 
         <div className="submit-button">
