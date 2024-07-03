@@ -12,11 +12,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-fit items-center">
+    <div className="flex h-fit">
       <div className="hidden w-1/2 lg:block">
         <img src="src/assets/image/promo-image.jpg" alt="Promo image" />
       </div>
-      <div className="w-full md:w-1/3 lg:w-1/3 lg:ml-0 ml-20 mr-20 flex flex-col allign-center">
+      <div className="w-full md:w-1/3 lg:w-1/3 lg: mt-10 lg:ml-0 ml-20 mr-20 flex flex-col">
         <div className="flex flex-col items-center">
           <h1 className="text-3xl font-bold">Acceder</h1>
           <p>¿No tienes cuenta? <Link href="/signup">Crea una</Link></p>
