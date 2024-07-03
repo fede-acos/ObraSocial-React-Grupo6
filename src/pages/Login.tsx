@@ -11,21 +11,26 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button onClick={handleLogin}>Login</button>
+    <div className="flex h-screen">
+      <div className="hidden w-1/2 lg:block">
+        <img src="src/assets/image/promo-image.png" />
+      </div>
+      <div>
+        <h1>Login</h1>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button onClick={handleLogin}>Login</button>
+      </div>
     </div>
   );
 }
