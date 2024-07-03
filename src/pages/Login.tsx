@@ -1,12 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { login, useLogin } from "../services/useLogin";
+import { useLogin } from "../services/useLogin";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate, error, data } = useLogin();
+  const { mutate } = useLogin();
 
   const handleLogin = async () => {
     mutate({ username, password });
