@@ -14,6 +14,7 @@ function Home() {
   );
 
   const test = {
+    id: 123,
     nombre: "fede",
     especialidad: "test",
     horarioEntrada: "10:00:00",
@@ -22,15 +23,6 @@ function Home() {
       provincia: "corrientes",
       ciudad: "corrientes",
     },
-  };
-
-  type TurnoDto = {
-    turnoId: number;
-    pacienteId: number;
-    especialistaId: number;
-    fecha: string;
-    hora: string;
-    motivoConsulta: string;
   };
 
   const handleAdd = async (newEntity: SpecialistDto) => {
