@@ -2,9 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import CartillaMedica from "../pages/CartillaMedica";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import MisTurnos from "../pages/MisTurnos";
 import SignUp from "../pages/SignUp";
-import { ProtectedRoute } from "./ProtectedRoute";
 import Turnos from "../pages/Turnos";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 function Router() {
   return (
@@ -24,6 +25,14 @@ function Router() {
         element={
           <ProtectedRoute>
             <CartillaMedica />
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route
+        path="/mis-turnos"
+        element={
+          <ProtectedRoute>
+            <MisTurnos />
           </ProtectedRoute>
         }
       ></Route>

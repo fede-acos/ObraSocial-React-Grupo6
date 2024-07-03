@@ -6,14 +6,14 @@ import {
   CardHeader,
   Divider,
 } from "@nextui-org/react";
+import { useNavigate, useNavigate } from "react-router-dom";
 import { SpecialistDto } from "../types/SpecialistDto";
-import { useNavigate } from "react-router-dom";
 
 function SpecialistCard({ specialist }: { specialist: SpecialistDto }) {
-  
   const navigate = useNavigate();
-  const handlePedirTurno = (specialist : SpecialistDto) => {
-    navigate('/turnos', { state: { specialist } });
+
+  const handleClickTurno = () => {
+    navigate("/turnos", { state: { specialist: specialist } });
   };
 
   return (
@@ -26,8 +26,9 @@ function SpecialistCard({ specialist }: { specialist: SpecialistDto }) {
             <h2>{specialist.especialidad}</h2>
           </div>
         </div>
-        <Button size="md" 
-                onClick={() => handlePedirTurno(specialist)} >Reservar Turno</Button>
+        <Button size="md" onClick={() => handleClickTurno()}>
+          Reservar Turno
+        </Button>
       </CardHeader>
       <Divider />
       <CardBody>

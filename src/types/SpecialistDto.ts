@@ -4,7 +4,7 @@
 //quizas agregar optimistic updates
 
 export interface SpecialistDto {
-  id : number;
+  id: number;
   nombre: string;
   especialidad: string;
   horarioEntrada: string;
