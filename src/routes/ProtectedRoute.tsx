@@ -12,8 +12,6 @@ export const ProtectedRoute = ({ children }: PropsWithChildren) => {
     return <p>Loading...</p>;
   }
 
-  auth?.logout();
-
   if (!auth?.currentUser) {
     //no hay usuario logeado
     return <Navigate to="/login" />;

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import CartillaMedica from "../pages/CartillaMedica";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
@@ -14,6 +15,14 @@ function Router() {
         element={
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route
+        path="/cartilla"
+        element={
+          <ProtectedRoute>
+            <CartillaMedica />
           </ProtectedRoute>
         }
       ></Route>

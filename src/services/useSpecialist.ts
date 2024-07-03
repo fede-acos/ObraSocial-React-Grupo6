@@ -1,21 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../config/axiosConfig";
-
-//TODO
-//remover los console.log cuando este todo OK.
-//mover los types a otra carpeta
-//quizas agregar optimistic updates
-
-export interface SpecialistDto {
-  nombre: string;
-  especialidad: string;
-  horarioEntrada: string;
-  horarioSalida: string;
-  ubicacion: {
-    provincia: string;
-    ciudad: string;
-  };
-}
+import { SpecialistDto } from "../types/SpecialistDto";
 
 interface UpdateSpecialistDto {
   id: string;
