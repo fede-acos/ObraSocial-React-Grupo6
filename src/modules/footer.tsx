@@ -3,7 +3,8 @@ import {Link} from "@nextui-org/react"
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-4 bottom-0 w-full">
+    <footer className="bg-black text-white py-4 bottom-0 w-full sticky z-50">
+
       <div className="mx-8 flex justify-between">
         <div>
           <h6 className="text-lg font-semibold">Hecho por:</h6>
