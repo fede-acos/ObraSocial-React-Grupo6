@@ -6,7 +6,7 @@ import {useLocale} from "@react-aria/i18n";
 import { useEffect, useState } from "react";
 import { useEntity } from "../services/useApi";
 import { TurnoDto } from "../types/TurnoDto";
-import './styles/turnosForm.css'
+import './turnosForm.css'
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
@@ -72,7 +72,6 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
             timeSlots.push(current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
             current.setMinutes(current.getMinutes() + 30);
         }
-
         return timeSlots;
     };
 
