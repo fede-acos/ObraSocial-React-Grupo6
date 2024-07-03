@@ -1,8 +1,9 @@
 import {useForm, Controller, SubmitHandler } from "react-hook-form"
-import {Calendar, DateValue} from "@nextui-org/react";
+import {Calendar, DateValue, Textarea} from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
 import { isWeekend} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
+import { useEffect, useState } from "react";
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
@@ -15,7 +16,7 @@ interface FormValues  {
 }
 
 function TurnosForm ({ specialist }: FormTurnosProps) {
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: { // pacienteid, especialistaId, fecha, hora, motivoConsulta
         motivoConsulta: "",
         selectedDate: null,
@@ -23,6 +24,9 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         },
     })
     
+    const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+
     const isDateUnavailable = (date : DateValue) =>
         isWeekend(date, locale) ;
 
@@ -32,6 +36,22 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         console.log(data)
     }
 
+    const selectedDate  = watch('selectedDate');
+    useEffect(() => {
+        
+        if (selectedDate) {
+            const date = new Date(selectedDate).toLocaleDateString('es-ES', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+        });
+        console.log(date)
+        setFormattedDate(date);
+        } else {
+        setFormattedDate(null);
+        }
+        
+    }, [selectedDate]);
 
 
 
@@ -60,6 +80,25 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
             )}
         />
         <p className="error">{errors.selectedDate?.message}</p>
+        {formattedDate && <p>{formattedDate}</p>}
+        </div>
+
+        <div className="form-block">
+        <h2><b>Motivo de consulta:</b></h2>
+        <Controller
+            name="motivoConsulta"
+            control={control}
+            rules={{ required: "pedilo" }}
+            render={({ field }) => (
+            <>
+                <Textarea
+                    className="textarea"
+                    {...field}
+                />
+                <p className="error">{errors.motivoConsulta?.message}</p>
+            </>
+            )}
+        />
         </div>
         </form>
     )
