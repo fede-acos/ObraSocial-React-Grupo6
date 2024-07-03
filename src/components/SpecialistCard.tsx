@@ -6,9 +6,16 @@ import {
   CardHeader,
   Divider,
 } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 import { SpecialistDto } from "../types/SpecialistDto";
 
 function SpecialistCard({ specialist }: { specialist: SpecialistDto }) {
+  const navigate = useNavigate();
+
+  const handleClickTurno = () => {
+    navigate("/turnos", { state: { specialist: specialist } });
+  };
+
   return (
     <Card className="w-full sm:w-96 ">
       <CardHeader className="flex justify-between">
@@ -19,7 +26,9 @@ function SpecialistCard({ specialist }: { specialist: SpecialistDto }) {
             <h2>{specialist.especialidad}</h2>
           </div>
         </div>
-        <Button size="md">Reservar Turno</Button>
+        <Button size="md" onClick={() => handleClickTurno()}>
+          Reservar Turno
+        </Button>
       </CardHeader>
       <Divider />
       <CardBody>
