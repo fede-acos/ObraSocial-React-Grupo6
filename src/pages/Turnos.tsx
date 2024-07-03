@@ -1,6 +1,6 @@
-import './turnos.css';
 import { useLocation } from 'react-router-dom';
 import TurnosForm from '../modules/turnosForm';
+import './styles/turnos.css'
 
 
 function Turnos () {  
