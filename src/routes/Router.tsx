@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MisTurnos from "../pages/MisTurnos";
 import SignUp from "../pages/SignUp";
+import Turnos from "../pages/Turnos";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 function Router() {
@@ -32,6 +33,14 @@ function Router() {
         element={
           <ProtectedRoute>
             <MisTurnos />
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route
+        path="/turnos"
+        element={
+          <ProtectedRoute>
+            <Turnos />
           </ProtectedRoute>
         }
       ></Route>

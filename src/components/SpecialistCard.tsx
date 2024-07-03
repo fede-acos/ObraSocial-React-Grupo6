@@ -6,7 +6,7 @@ import {
   CardHeader,
   Divider,
 } from "@nextui-org/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigate } from "react-router-dom";
 import { SpecialistDto } from "../types/SpecialistDto";
 
 function SpecialistCard({ specialist }: { specialist: SpecialistDto }) {
