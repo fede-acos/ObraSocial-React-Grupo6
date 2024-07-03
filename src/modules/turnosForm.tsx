@@ -1,5 +1,5 @@
-import {useForm, Controller, SubmitHandler } from "react-hook-form"
-import {Calendar, DateValue, Textarea} from "@nextui-org/react";
+import {useForm, Controller, SubmitHandler, useWatch } from "react-hook-form"
+import {Button, Calendar, DateValue, Textarea} from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
 import { isWeekend} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 interface FormTurnosProps {
     specialist: SpecialistDto;
 }
-
 interface FormValues  {
     motivoConsulta: string
     selectedDate: Date | null
@@ -25,7 +24,6 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
     })
     
     const [formattedDate, setFormattedDate] = useState<string | null>(null);
-
 
     const isDateUnavailable = (date : DateValue) =>
         isWeekend(date, locale) ;
@@ -52,6 +50,27 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         }
         
     }, [selectedDate]);
+
+
+    const generateTimeSlots = () => {
+        const start = new Date(`2000-01-01T${specialist.horarioEntrada}`);
+        const end = new Date(`2000-01-01T${specialist.horarioSalida}`);
+        const timeSlots: string[] = [];
+        
+        const current = new Date(start);
+    
+        while (current <= end) {
+            timeSlots.push(current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+            current.setMinutes(current.getMinutes() + 30);
+        }
+
+        return timeSlots;
+    };
+
+    const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
+
+
+
 
 
 
@@ -99,6 +118,36 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
             </>
             )}
         />
+        </div>
+
+        
+        <div className="form-block">
+            <h2><b>Seleccione un horario</b></h2>
+            <div className="time-slots">
+                {generateTimeSlots().map((time, index) => (
+                <Controller
+                    key={index}
+                    name="selectedButtonTime"
+                    control={control}
+                    rules={{ required: "pedilo" }}
+                    render={({ field }) => (
+                    <Button
+                        onClick={() => field.onChange(time)}
+                        radius="none"
+                        color={selectedButtonTime === time ? 'primary' : 'default'}
+                        variant="bordered"
+                    >
+                        {time}
+                    </Button>
+                    )}
+                />
+                ))}
+                <p className="error">{errors.selectedButtonTime?.message}</p>
+            </div>
+        </div>
+
+        <div className="submit-button">
+            <Button size="lg" color="primary" type="submit">Confirmar</Button>
         </div>
         </form>
     )
