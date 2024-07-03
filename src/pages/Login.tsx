@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLogin } from "../services/useLogin";
 import { Input, Button, Link} from "@nextui-org/react"
 
-function Login() {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { mutate } = useLogin();
