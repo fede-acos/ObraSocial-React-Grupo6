@@ -1,6 +1,6 @@
 import { Button, Card, CardBody } from "@nextui-org/react";
 import { useEntities, useEntity } from "../services/useApi";
-import { SpecialistDto } from "../services/useSpecialist";
+import { SpecialistDto } from "../types/SpecialistDto";
 function Home() {
   const { data, isLoading, isError } = useEntities<SpecialistDto>(
     "especialistas",
