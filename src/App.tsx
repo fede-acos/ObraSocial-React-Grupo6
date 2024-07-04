@@ -2,8 +2,8 @@ import { NextUIProvider } from "@nextui-org/react";
 import {useAuth} from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import Router from "./routes/Router";
-import Header from "./modules/header";
-import Footer from "./modules/footer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   const auth = useAuth();
@@ -14,7 +14,7 @@ function App() {
   return (
     <NextUIProvider navigate={navigate}>
       <div className="flex flex-col min-h-screen">
-        {auth?.currentUser ? <Header /> : <div></div>}
+        {auth?.currentUser ? <Header /> : <></>}
 
         <div className="flex-grow">
           <Router />
