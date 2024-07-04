@@ -14,7 +14,7 @@ const Login = () => {
   return (
     <div className="flex h-fit">
       <div className="hidden w-1/2 lg:block md:block">
-        <img src="src/assets/image/promo-image.jpg" alt="Promo image" />
+        <img src="src/assets/image/promo-image.png" alt="Promo image" />
       </div>
       <div className="w-full md:w-1/3 lg:w-1/3 lg: mt-10 lg:ml-0 ml-20 mr-20 flex flex-col">
         <div className="flex flex-col items-center">
