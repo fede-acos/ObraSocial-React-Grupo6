@@ -8,6 +8,7 @@ import { useEntity } from "../services/useApi";
 import { TurnoDto } from "../types/TurnoDto";
 import './turnosForm.css'
 import generateTimeSlots from "../utils/generador.horarios.specialist";
+import { Medkit } from 'react-ionicons'
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
@@ -87,8 +88,21 @@ function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form-container">
-        <div className="form-block">
-            <h1>{specialist.nombre}</h1>
+        <div className="form-block flex items-center">
+            {/* Columna 1: Icono Medkit */}
+            <div className="flex-shrink-0 mr-4">
+                <Medkit  />
+
+            </div>
+
+            {/* Columna 2: Información del Especialista */}
+            <div className="text-left">
+                <h1 className="text-3xl font-bold">{specialist.nombre}</h1>
+                <br/>
+                <h2 className="text-xl font-semibold">{specialist.especialidad}</h2>
+                <br/>
+                <p className="text-lg">{specialist.ubicacion.provincia}, {specialist.ubicacion.ciudad}</p>
+            </div>
         </div>
 
         <div className="form-block">
