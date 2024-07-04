@@ -7,9 +7,12 @@ import { useEffect, useState } from "react";
 import { useEntity } from "../services/useApi";
 import { TurnoDto } from "../types/TurnoDto";
 import './turnosForm.css'
+import generateTimeSlots from "../utils/generador.horarios.specialist";
+import { Medkit } from 'react-ionicons'
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
+    turnos: TurnoDto[]
 }
 interface FormValues  {
     motivoConsulta: string
@@ -17,7 +20,7 @@ interface FormValues  {
     selectedButtonTime : string | null
 }
 
-function TurnosForm ({ specialist }: FormTurnosProps) {
+function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: { 
         motivoConsulta: "",
@@ -25,7 +28,8 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         selectedButtonTime: null
         },
     })
-    
+
+    const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
     const [formattedDate, setFormattedDate] = useState<string | null>(null); 
 
     const { add } = useEntity<TurnoDto>(
@@ -38,10 +42,12 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         await add.mutateAsync(newEntity);
     };
 
+    const {locale} = useLocale();
+
     const isDateUnavailable = (date : DateValue) =>
         isWeekend(date, locale) ;
 
-    const {locale} = useLocale();
+    
 
     const selectedDate  = watch('selectedDate');
     useEffect(() => {
@@ -59,21 +65,6 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         }
         
     }, [selectedDate]);
-
-
-    const generateTimeSlots = () => {
-        const start = new Date(`2000-01-01T${specialist.horarioEntrada}`);
-        const end = new Date(`2000-01-01T${specialist.horarioSalida}`);
-        const timeSlots: string[] = [];
-        
-        const current = new Date(start);
-    
-        while (current <= end) {
-            timeSlots.push(current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-            current.setMinutes(current.getMinutes() + 30);
-        }
-        return timeSlots;
-    };
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (data.selectedDate) {
@@ -93,15 +84,25 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
                 handleAdd(turnoData)
             }
         }
-
     }   
-
-    const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form-container">
-        <div className="form-block">
-            <h1>{specialist.nombre}</h1>
+        <div className="form-block flex items-center">
+            {/* Columna 1: Icono Medkit */}
+            <div className="flex-shrink-0 mr-4">
+                <Medkit  />
+
+            </div>
+
+            {/* Columna 2: Información del Especialista */}
+            <div className="text-left">
+                <h1 className="text-3xl font-bold">{specialist.nombre}</h1>
+                <br/>
+                <h2 className="text-xl font-semibold">{specialist.especialidad}</h2>
+                <br/>
+                <p className="text-lg">{specialist.ubicacion.provincia}, {specialist.ubicacion.ciudad}</p>
+            </div>
         </div>
 
         <div className="form-block">
@@ -147,7 +148,7 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         <div className="form-block">
             <h2><b>Seleccione un horario</b></h2>
             <div className="time-slots">
-                {generateTimeSlots().map((time, index) => (
+                {generateTimeSlots(turnos, specialist).map((time, index) => (
                 <Controller
                     key={index}
                     name="selectedButtonTime"
@@ -155,12 +156,13 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
                     rules={{ required: "El horario es obligatorio" }}
                     render={({ field }) => (
                     <Button
-                        onClick={() => field.onChange(time)}
+                        onClick={() => field.onChange(time.time)}
                         radius="none"
-                        color={selectedButtonTime === time ? 'primary' : 'default'}
+                        color={selectedButtonTime === time.time ? 'primary' : 'default'}
                         variant="bordered"
+                        isDisabled={time.occupied}
                     >
-                        {time}
+                        {time.time}
                     </Button>
                     )}
                 />
