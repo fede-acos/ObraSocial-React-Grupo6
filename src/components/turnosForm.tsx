@@ -10,6 +10,7 @@ import './turnosForm.css'
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
+    turnos: TurnoDto[]
 }
 interface FormValues  {
     motivoConsulta: string
@@ -17,7 +18,7 @@ interface FormValues  {
     selectedButtonTime : string | null
 }
 
-function TurnosForm ({ specialist }: FormTurnosProps) {
+function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: { 
         motivoConsulta: "",
@@ -26,6 +27,9 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         },
     })
     
+
+    const turnosDef: TurnoDto[]  = turnos
+
     const [formattedDate, setFormattedDate] = useState<string | null>(null); 
 
     const { add } = useEntity<TurnoDto>(
@@ -61,19 +65,41 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
     }, [selectedDate]);
 
 
-    const generateTimeSlots = () => {
-        const start = new Date(`2000-01-01T${specialist.horarioEntrada}`);
-        const end = new Date(`2000-01-01T${specialist.horarioSalida}`);
-        const timeSlots: string[] = [];
-        
-        const current = new Date(start);
+    const convertTimeToMinutes = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+};
+
+const generateTimeSlots = (turnos : TurnoDto[]) => {
+    const start = new Date(`2000-01-01T${specialist.horarioEntrada}`);
+    const end = new Date(`2000-01-01T${specialist.horarioSalida}`);
+    const timeSlots: { time: string; occupied: boolean; }[] = [];
+
+    const current = new Date(start);
     
-        while (current <= end) {
-            timeSlots.push(current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-            current.setMinutes(current.getMinutes() + 30);
-        }
-        return timeSlots;
-    };
+    const turnosasd: TurnoDto[] = turnos;
+
+    while (current <= end) {
+        const currentTimeInMinutes = current.getHours() * 60 + current.getMinutes();
+        const formattedTime = current.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const isOccupied = turnosasd.some(turno => {
+            const turnoTimeInMinutes = convertTimeToMinutes(turno.hora);
+            return turnoTimeInMinutes === currentTimeInMinutes;
+        });
+
+        timeSlots.push({
+            time: formattedTime,
+            occupied: isOccupied
+        });
+
+        current.setMinutes(current.getMinutes() + 30);
+    
+}
+
+
+return timeSlots;
+};
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (data.selectedDate) {
@@ -147,7 +173,7 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
         <div className="form-block">
             <h2><b>Seleccione un horario</b></h2>
             <div className="time-slots">
-                {generateTimeSlots().map((time, index) => (
+                {generateTimeSlots(turnos).map((time, index) => (
                 <Controller
                     key={index}
                     name="selectedButtonTime"
@@ -155,12 +181,13 @@ function TurnosForm ({ specialist }: FormTurnosProps) {
                     rules={{ required: "El horario es obligatorio" }}
                     render={({ field }) => (
                     <Button
-                        onClick={() => field.onChange(time)}
+                        onClick={() => field.onChange(time.time)}
                         radius="none"
-                        color={selectedButtonTime === time ? 'primary' : 'default'}
+                        color={selectedButtonTime === time.time ? 'primary' : 'default'}
                         variant="bordered"
+                        isDisabled={time.occupied}
                     >
-                        {time}
+                        {time.time}
                     </Button>
                     )}
                 />
