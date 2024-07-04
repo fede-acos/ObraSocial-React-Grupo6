@@ -9,6 +9,9 @@ import { TurnoDto } from "../types/TurnoDto";
 import './turnosForm.css'
 import generateTimeSlots from "../utils/generador.horarios.specialist";
 import { Medkit } from 'react-ionicons'
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
+
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
@@ -31,6 +34,7 @@ function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
 
     const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
     const [formattedDate, setFormattedDate] = useState<string | null>(null); 
+    const navigate = useNavigate();
 
     const { add } = useEntity<TurnoDto>(
         "turno",
@@ -82,6 +86,15 @@ function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
                 };
             
                 handleAdd(turnoData)
+                Swal.fire({
+                    title: "¡Muchas Gracias!",
+                    text: "Su reserva se ha realizado con exito",
+                    icon: "success"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate("/mis-turnos")
+                    }
+                });                 
             }
         }
     }   
