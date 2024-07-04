@@ -2,11 +2,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import TurnosForm from '../components/turnosForm';
 import './styles/turnos.css'
 import { useEffect } from 'react';
+import { useEntities } from '../services/useApi';
+import { TurnoDto } from '../types/TurnosDto';
+import { Spinner } from '@nextui-org/react';
 
 
 function Turnos () {  
     const location = useLocation();
     const navigate = useNavigate();
+
+    const { data , isLoading } = useEntities<TurnoDto>(
+        "turnos",
+        "http://localhost:8080/turnos"
+    );
+
 
     useEffect(() => {
         if (!location.state || !location.state.specialist) {
@@ -20,11 +29,18 @@ function Turnos () {
 
     const { specialist } = location.state;   
 
+    if (isLoading || !data) {
+        return (
+        <div>
+            <Spinner size="lg" />
+        </div>
+        )
+    }
     return (
-    <div className="container">     
+    <div className="container-turnos">     
         <div className="centered-content">
-            <h2>Turnos para {specialist.nombre}</h2>
-            <TurnosForm specialist={specialist}/>
+            <h2>Turnos con {specialist.nombre}</h2>
+            <TurnosForm specialist={specialist} turnos={data} />
         </div>
     </div>
     );
