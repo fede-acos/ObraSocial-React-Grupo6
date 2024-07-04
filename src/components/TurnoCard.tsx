@@ -1,17 +1,31 @@
-import { Avatar, Card, Spinner } from "@nextui-org/react";
-import { useEntities, useEntity } from "../services/useApi";
+import {
+  Avatar,
+  Button,
+  Card,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Spinner,
+} from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
 import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
+import { TurnoDto } from "../types/TurnosDto";
 
-function TurnoCard({
-  turno,
-  specialistData,
-  loadingSpecialist,
-}: {
+interface TurnoCardProps {
   turno: TurnoDtoResponse;
   specialistData: SpecialistDto[] | undefined;
   loadingSpecialist: boolean;
-}) {
+  onEdit: (turno: TurnoDto) => void;
+  onDelete: (turnoId: number) => void;
+}
+
+const TurnoCard: React.FC<TurnoCardProps> = ({
+  turno,
+  specialistData,
+  loadingSpecialist,
+  onEdit,
+  onDelete,
+}) => {
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("es-Es", {
       weekday: "short",
@@ -48,10 +62,29 @@ function TurnoCard({
           <span>{formatHour(turno.hora)} </span>
           <span> {turno.motivoConsulta} </span>
           <span>30min</span>
+          <Popover placement="bottom">
+            <PopoverTrigger>
+              <Button color="primary">...</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className=" flex flex-col px-1 py-2 gap-2 ">
+                <Button className="text-small " onClick={() => onEdit(turno)}>
+                  Editar
+                </Button>
+                <Button
+                  className="text-small"
+                  onClick={() => onDelete(turno.turnoId)}
+                >
+                  Cancelar
+                </Button>
+                <Button className="text-small"> Descargar Receta</Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </Card>
       )}
     </>
   );
-}
+};
 
 export default TurnoCard;
