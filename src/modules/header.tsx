@@ -30,7 +30,7 @@ function Header() {
 
             <NavbarContent justify="center">
                 <NavbarItem>
-                    <Link href="/turnos">Mis turnos</Link>
+                    <Link href="/mis-turnos">Mis turnos</Link>
                 </NavbarItem>
                 <NavbarItem>
                     <Link href="/cartilla">Cartilla medica</Link>
