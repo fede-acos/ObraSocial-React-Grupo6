@@ -1,5 +1,6 @@
-import {useState} from "react";
-import { Input, Button, Link} from "@nextui-org/react"
+import { Button, Input, Link } from "@nextui-org/react";
+import { useState } from "react";
+import { useRegister } from "../services/useRegister";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -8,9 +9,10 @@ const SignUp = () => {
   const [memberNumber, setMemberNumber] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const { mutate } = useRegister();
 
   const handleSignUp = async () => {
-    //useSignUp({ username, password, name, lastName, memberNumber });
+    //   mutate({ username, password, name, lastName, memberNumber });
   };
 
   return (
@@ -21,7 +23,9 @@ const SignUp = () => {
       <div className="w-full md:w-1/3 lg:w-1/3 lg:ml-0 ml-20 mr-20 flex flex-col allign-center">
         <div className="flex flex-col items-center">
           <h1 className="text-3xl font-bold">Registro</h1>
-          <p>¿Ya tienes cuenta? <Link href="/login">Iniciar sesion</Link></p>
+          <p>
+            ¿Ya tienes cuenta? <Link href="/login">Iniciar sesion</Link>
+          </p>
         </div>
         <div className="items-center py-10">
           <Input
@@ -60,11 +64,13 @@ const SignUp = () => {
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             className="py-2"
           />
-          <Button color="primary" fullWidth onClick={handleSignUp}>Registrarse</Button>
+          <Button color="primary" fullWidth onClick={handleSignUp}>
+            Registrarse
+          </Button>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;

@@ -34,9 +34,6 @@ function CartillaMedica() {
     setFilterValue("");
   }, []);
 
-  console.log(filterSpecialistsCity(data, filterValue));
-  console.log(filterValue);
-
   return (
     <>
       {isLoading ? (

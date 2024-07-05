@@ -1,6 +1,7 @@
-import { Input } from "@nextui-org/react";
+import { Input, Spinner } from "@nextui-org/react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from "../components/SearchIcon";
 import TurnoCard from "../components/TurnoCard";
 import { useEntities, useEntity } from "../services/useApi";
 import { SpecialistDto } from "../types/SpecialistDto";
@@ -8,6 +9,7 @@ import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
 import { TurnoDto } from "../types/TurnosDto";
 
 function MisTurnos() {
+  const [filterValue, setFilterValue] = useState("");
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useEntities<TurnoDtoResponse>(
@@ -35,21 +37,50 @@ function MisTurnos() {
     await remove.mutateAsync(turnoId.toString());
   };
 
+  const onSearchChange = useCallback((value: string) => {
+    if (value) {
+      setFilterValue(value);
+    } else {
+      setFilterValue("");
+    }
+  }, []);
+
+  const onClear = useCallback(() => {
+    setFilterValue("");
+  }, []);
+
   return (
-    <div className="flex justify-center items-center ">
-      <div className="flex flex-col gap-4 mt-4  w-11/12 xl:w-9/12">
-        {data?.map((turno) => (
-          <TurnoCard
-            key={turno.turnoId}
-            turno={turno}
-            specialistData={specialistData}
-            loadingSpecialist={loadingSpecialist}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
-    </div>
+    <>
+      {isLoading ? (
+        <Spinner size="lg" />
+      ) : (
+        <div className="flex justify-center items-center ">
+          <div className="flex flex-col gap-4 mt-4  w-11/12 xl:w-9/12">
+            <div className="w-full flex justify-center items-center">
+              <Input
+                isClearable={true}
+                className="w-full sm:max-w-[44%] flex-grow"
+                placeholder="Buscar por ciudad.."
+                startContent={<SearchIcon />}
+                value={filterValue}
+                onClear={() => onClear()}
+                onValueChange={onSearchChange}
+              />
+            </div>
+            {data?.map((turno) => (
+              <TurnoCard
+                key={turno.turnoId}
+                turno={turno}
+                specialistData={specialistData}
+                loadingSpecialist={loadingSpecialist}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
