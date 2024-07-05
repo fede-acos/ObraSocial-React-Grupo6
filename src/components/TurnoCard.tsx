@@ -53,35 +53,37 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
           <Spinner size="lg" />
         </div>
       ) : (
-        <Card className="w-full  flex flex-row items-center px-2 gap-4 min-h-20 xl:min-h-32 xl:justify-around xl:text-2xl  ">
-          <Avatar showFallback size="lg" />
-          <span>
-            <p>{findSpecialistName(turno.especialistaId)}</p>
-          </span>
-          <span>{formatDate(turno.fecha)}</span>
-          <span>{formatHour(turno.hora)} </span>
-          <span> {turno.motivoConsulta} </span>
-          <span>30min</span>
-          <Popover placement="bottom">
-            <PopoverTrigger>
-              <Button color="primary">...</Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <div className=" flex flex-col px-1 py-2 gap-2 ">
-                <Button className="text-small " onClick={() => onEdit(turno)}>
-                  Editar
-                </Button>
-                <Button
-                  className="text-small"
-                  onClick={() => onDelete(turno.turnoId)}
-                >
-                  Cancelar
-                </Button>
-                <Button className="text-small"> Descargar Receta</Button>
-              </div>
-            </PopoverContent>
-          </Popover>
-        </Card>
+        <>
+          <Card className="w-full  flex flex-row items-center px-2 gap-4 min-h-20 xl:min-h-32 xl:justify-around xl:text-2xl  ">
+            <Avatar showFallback size="lg" />
+            <span>
+              <p>{findSpecialistName(turno.especialistaId)}</p>
+            </span>
+            <span>{formatDate(turno.fecha)}</span>
+            <span>{formatHour(turno.hora)} </span>
+            <span> {turno.motivoConsulta} </span>
+            <span>30min</span>
+            <Popover placement="bottom">
+              <PopoverTrigger>
+                <Button color="primary">...</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <div className=" flex flex-col px-1 py-2 gap-2 ">
+                  <Button className="text-small " onClick={() => onEdit(turno)}>
+                    Editar
+                  </Button>
+                  <Button
+                    className="text-small"
+                    onClick={() => onDelete(turno.turnoId)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button className="text-small"> Descargar Receta</Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </Card>
+        </>
       )}
     </>
   );

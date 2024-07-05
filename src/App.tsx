@@ -1,15 +1,14 @@
 import { NextUIProvider } from "@nextui-org/react";
-import {useAuth} from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import Router from "./routes/Router";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
+import { useAuth } from "./hooks/useAuth";
+import Router from "./routes/Router";
 
 function App() {
   const auth = useAuth();
 
   const navigate = useNavigate();
-  console.log(auth?.currentUser?.upn);
 
   return (
     <NextUIProvider navigate={navigate}>
