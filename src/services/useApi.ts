@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { axiosInstance } from "../config/axiosConfig";
 
 export const useEntities = <T>(key: string, url: string) => {
@@ -24,13 +25,27 @@ export const useEntity = <T>(
       type: "active",
     });
 
+  const entity = useQuery<T, Error>({
+    queryKey: [key, id],
+    queryFn: async (): Promise<T> => {
+      const { data } = await axiosInstance.get<T>(`${url}/${id}`);
+      return data;
+    },
+    enabled: !!id,
+  });
+
   const add = useMutation<T, Error, T>({
     mutationFn: async (entity: T): Promise<T> => {
       const { data } = await axiosInstance.post<T>(url, entity);
       return data;
     },
     onSuccess: () => {
+      toast.success(`${key} creado correctamente`);
+
       invalidateActive();
+    },
+    onError: () => {
+      toast.error(`Error creando ${key}`);
     },
   });
 
@@ -40,7 +55,12 @@ export const useEntity = <T>(
       return data;
     },
     onSuccess: () => {
+      toast.success(`${key} actualizado correctamente`);
+
       invalidateActive();
+    },
+    onError: () => {
+      toast.error(`Error actualizando ${key}`);
     },
   });
 
@@ -49,11 +69,15 @@ export const useEntity = <T>(
       await axiosInstance.delete<T>(`${url}/${id}`);
       return id;
     },
-    onSuccess: (deletedEntity) => {
+    onSuccess: () => {
+      toast.success(`${key} eliminado correctamente`);
       invalidateActive();
     },
     onSettled: () => {
       invalidateActive();
+    },
+    onError: () => {
+      toast.error(`Error eliminando ${key}`);
     },
     onMutate: async (deletedEntity) => {
       await queryClient.cancelQueries({ queryKey: [key], exact: true });
@@ -70,6 +94,7 @@ export const useEntity = <T>(
     },
   });
   return {
+    entity,
     add,
     update,
     remove,
