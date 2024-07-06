@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useAuth } from "../hooks/useAuth";
 
 type loginDto = {
@@ -19,10 +20,11 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (loginDto: loginDto) => login(loginDto),
     onSuccess: (data) => {
+      toast.success("Bienvenido");
       auth?.login(data);
     },
     onError: (error) => {
-      console.log(error);
+      toast.error("Usuario o contraseña incorrecta");
     },
   });
 };

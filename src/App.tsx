@@ -1,5 +1,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { useAuth } from "./hooks/useAuth";
@@ -14,13 +16,13 @@ function App() {
     <NextUIProvider navigate={navigate}>
       <div className="flex flex-col min-h-screen">
         {auth?.currentUser ? <Header /> : <></>}
-
         <div className="flex-grow">
           <Router />
         </div>
       </div>
 
       <Footer />
+      <ToastContainer />
     </NextUIProvider>
   );
 }
