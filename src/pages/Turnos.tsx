@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import TurnosForm from '../components/turnosForm';
+import TurnosForm from '../components/TurnosForm';
 import './styles/turnos.css'
 import { useEffect } from 'react';
 import { useEntities, useEntity } from '../services/useApi';

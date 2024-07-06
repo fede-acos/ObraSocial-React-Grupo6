@@ -1,7 +1,7 @@
 import {useForm, Controller, SubmitHandler, useWatch } from "react-hook-form"
 import {Button, Calendar, DateValue, Textarea} from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
-import { isWeekend, CalendarDate} from "@internationalized/date";
+import { isWeekend, CalendarDate, getLocalTimeZone, today} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
 import { useEffect, useState } from "react";
 import { TurnoDto } from "../types/TurnoDto";
@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
 import parseDateString from "../utils/parse.date.string";
 import formatTurnoHora from "../utils/format.turnos.hora";
-
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
@@ -47,8 +46,6 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
     const isDateUnavailable = (date : DateValue) =>
         isWeekend(date, locale) ;
 
-    
-
     useEffect(() => {
         
         if (selectedDate) {
@@ -61,7 +58,7 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
                 timeZone: "UTC"
 
         });
-        console.log(date)
+
         setFormattedDate(date);
         } else {
         setFormattedDate(null);
@@ -149,6 +146,7 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
                 className="custom-calendar"
                 aria-label="Date (Unavailable)"
                 isDateUnavailable={isDateUnavailable}
+                minValue={today(getLocalTimeZone())}
                 onChange={(date) => field.onChange(date)}
                 value={field.value}
             />
