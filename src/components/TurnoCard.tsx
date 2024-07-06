@@ -7,22 +7,19 @@ import {
   PopoverTrigger,
   Spinner,
 } from "@nextui-org/react";
-import { SpecialistDto } from "../types/SpecialistDto";
-import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
-import { TurnoDto } from "../types/TurnosDto";
+import { TurnoDto } from "../types/TurnoDto";
+import { TurnosWithSpecialist } from "../types/TurnoWithSpecialist";
 
 interface TurnoCardProps {
-  turno: TurnoDtoResponse;
-  specialistData: SpecialistDto[] | undefined;
-  loadingSpecialist: boolean;
+  turno: TurnosWithSpecialist;
+  loading: boolean;
   onEdit: (turno: TurnoDto) => void;
   onDelete: (turnoId: number) => void;
 }
 
 const TurnoCard: React.FC<TurnoCardProps> = ({
   turno,
-  specialistData,
-  loadingSpecialist,
+  loading,
   onEdit,
   onDelete,
 }) => {
@@ -39,37 +36,37 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
     return time.substring(0, 5);
   };
 
-  const findSpecialistName = (id: number) => {
-    const specialist = specialistData?.find(
-      (specialist) => specialist.id === id
-    );
-    return specialist?.nombre || "";
-  };
-
   return (
     <>
-      {loadingSpecialist ? (
+      {loading ? (
         <div>
           <Spinner size="lg" />
         </div>
       ) : (
         <>
-          <Card className="w-full  flex flex-row items-center px-2 gap-4 min-h-20 xl:min-h-32 xl:justify-around xl:text-2xl  ">
-            <Avatar showFallback size="lg" />
-            <span>
-              <p>{findSpecialistName(turno.especialistaId)}</p>
+          <Card className="w-full  flex flex-row items-center px-2 gap-2 min-h-20 xl:min-h-32 justify-around xl:text-2xl  ">
+            <Avatar showFallback className="hidden md:block lg:w-14 lg:h-14" />
+            <span className="w-20 md:w-28 xl:w-40 2xl:w-48">
+              <p>{turno.nombreEspecialista}</p>
             </span>
-            <span>{formatDate(turno.fecha)}</span>
-            <span>{formatHour(turno.hora)} </span>
-            <span> {turno.motivoConsulta} </span>
-            <span>30min</span>
+
+            <span className="">{formatDate(turno.fecha)}</span>
+
+            <span className="">{formatHour(turno.hora)} </span>
+            <span className=""> {turno.motivoConsulta} </span>
+            <span className=" ">30min</span>
             <Popover placement="bottom">
               <PopoverTrigger>
-                <Button color="primary">...</Button>
+                <Button size="sm" color="primary" className="text-xl">
+                  ...
+                </Button>
               </PopoverTrigger>
               <PopoverContent>
                 <div className=" flex flex-col px-1 py-2 gap-2 ">
-                  <Button className="text-small " onClick={() => onEdit(turno)}>
+                  <Button
+                    className="text-small  "
+                    onClick={() => onEdit(turno)}
+                  >
                     Editar
                   </Button>
                   <Button

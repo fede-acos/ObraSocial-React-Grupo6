@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import CartillaMedica from "../pages/CartillaMedica";
-import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MisTurnos from "../pages/MisTurnos";
 import SignUp from "../pages/SignUp";
@@ -14,14 +13,6 @@ function Router() {
       <Route path="/signup" element={<SignUp />}></Route>
       <Route
         path="/"
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      ></Route>
-      <Route
-        path="/cartilla"
         element={
           <ProtectedRoute>
             <CartillaMedica />
