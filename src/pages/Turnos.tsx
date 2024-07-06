@@ -36,8 +36,6 @@ function Turnos() {
 
   const { specialist } = location.state;
 
-  console.log(turno, specialist);
-
   const handleAdd = async (newEntity: TurnoDto) => {
     await add.mutateAsync(newEntity);
   };
