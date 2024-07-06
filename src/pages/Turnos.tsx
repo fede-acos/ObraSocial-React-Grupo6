@@ -18,7 +18,6 @@ function Turnos () {
         "http://localhost:8080/turnos"
     );
 
-
     useEffect(() => {
         if (!location.state || !location.state.specialist) {
             navigate('/cartilla');

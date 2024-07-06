@@ -1,7 +1,7 @@
 import {useForm, Controller, SubmitHandler, useWatch } from "react-hook-form"
 import {Button, Calendar, DateValue, Textarea} from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
-import { isWeekend} from "@internationalized/date";
+import { isWeekend, CalendarDate} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
 import { useEffect, useState } from "react";
 import { useEntity } from "../services/useApi";
@@ -12,6 +12,8 @@ import { Medkit } from 'react-ionicons'
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
+import parseDateString from "../utils/parse.date.string";
+import formatTurnoHora from "../utils/format.turnos.hora";
 
 
 interface FormTurnosProps {
@@ -21,20 +23,21 @@ interface FormTurnosProps {
 }
 interface FormValues  {
     motivoConsulta: string
-    selectedDate: Date | null
+    selectedDate: CalendarDate | null
     selectedButtonTime : string | null
 }
 
-function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
+function TurnosForm ({ specialist, turnos, turno }: FormTurnosProps) {
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: { 
-        motivoConsulta: "",
-        selectedDate: null,
-        selectedButtonTime: null
+            motivoConsulta: turno ? turno.motivoConsulta : "",
+            selectedDate: turno ? parseDateString(turno.fecha) : null,
+            selectedButtonTime: turno ? formatTurnoHora(turno.hora) : ""
         },
     })
 
     const selectedButtonTime = useWatch({ control, name: 'selectedButtonTime' });
+    const selectedDate  = watch('selectedDate');
     const [formattedDate, setFormattedDate] = useState<string | null>(null); 
     const navigate = useNavigate();
 
@@ -55,14 +58,17 @@ function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
 
     
 
-    const selectedDate  = watch('selectedDate');
     useEffect(() => {
         
         if (selectedDate) {
-            const date = new Date(selectedDate).toLocaleDateString('es-ES', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
+
+            const { year, month, day } = selectedDate;
+            const date = new Date(year, month - 1, day).toLocaleDateString('es-ES', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                timeZone: "UTC"
+
         });
         console.log(date)
         setFormattedDate(date);
@@ -74,11 +80,11 @@ function TurnosForm ({ specialist, turnos }: FormTurnosProps) {
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         if (data.selectedDate) {
-            const dateObj = new Date(data.selectedDate);
-            const year = dateObj.getFullYear();
-            const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-            const day = dateObj.getDate().toString().padStart(2, '0');
-            const formattedDate = `${year}-${month}-${day}`;
+
+            const { year, month, day } = data.selectedDate;
+            const dateObj = new Date(year, month - 1, day);
+            const formattedDate = dateObj.toISOString().split('T')[0];
+            
             if (data.selectedButtonTime){
             const turnoData: TurnoDto = {
                     especialistaId: specialist.id,
