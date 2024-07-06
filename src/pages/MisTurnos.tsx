@@ -30,8 +30,11 @@ function MisTurnos() {
       "http://localhost:8080/especialistas"
     );
 
-  const handleEdit = (turno: TurnoDto, specialist : SpecialistDto | undefined) => {
-    navigate("/turnos", { state: { turno: turno, specialist: specialist} });
+  const handleEdit = (
+    turno: TurnoDtoResponse,
+    specialist: SpecialistDto | undefined
+  ) => {
+    navigate("/turnos", { state: { turno: turno, specialist: specialist } });
   };
 
   const handleDelete = async (turnoId: number) => {
@@ -52,30 +55,40 @@ function MisTurnos() {
 
   function addSpecialistNameToTurno(
     turnos: TurnoDtoResponse[] | undefined
-  ): TurnosWithSpecialist[] {
-    const specialistMap = new Map<number, string>();
+  ): (TurnoDtoResponse & SpecialistDto)[] {
+    const specialistMap = new Map<number, SpecialistDto>();
+
     specialistData?.forEach((specialist) => {
-      specialistMap.set(specialist.id, specialist.nombre);
+      specialistMap.set(specialist.id, specialist);
     });
 
     return (
-      turnos?.map((turno) => ({
-        ...turno,
-        nombreEspecialista:
-          specialistMap.get(turno.especialistaId) || "Unknown Specialist",
-      })) || []
+      turnos?.map((turno) => {
+        const specialist = specialistMap.get(turno.especialistaId);
+        return {
+          ...turno,
+          id: specialist?.id || 1,
+          turnoId: turno.turnoId,
+          nombre: specialist?.nombre || "Unknown Specialist",
+          especialidad: specialist?.especialidad || "Unknown Specialty",
+          horarioEntrada: specialist?.horarioEntrada || "Unknown Entry Time",
+          horarioSalida: specialist?.horarioSalida || "Unknown Exit Time",
+          ubicacion: specialist?.ubicacion || {
+            provincia: "Unknown Province",
+            ciudad: "Unknown City",
+          },
+        };
+      }) || []
     );
   }
 
   function filterTurnosBySpecialistName(
-    turnos: TurnosWithSpecialist[],
+    turnos: (TurnoDtoResponse & SpecialistDto)[],
     specialistName: string
-  ): TurnosWithSpecialist[] | undefined {
+  ): (TurnoDtoResponse & SpecialistDto)[] | undefined {
     if (specialistName.length === 0) return turnos;
     return turnos?.filter((turno) =>
-      turno.nombreEspecialista
-        .toLowerCase()
-        .includes(specialistName.toLowerCase())
+      turno.nombre.toLowerCase().includes(specialistName.toLowerCase())
     );
   }
 
