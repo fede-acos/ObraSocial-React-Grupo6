@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {
   Avatar,
   Button,
@@ -14,9 +15,16 @@ import {
 import React from "react";
 
 import Logo from "../assets/logo.svg";
+import { useAuth } from "../hooks/useAuth";
 
 function Header() {
-  const [userLogged, setUserLogged] = React.useState(true);
+    const auth = useAuth();
+    const [userLogged, setUserLogged] = useState(Boolean(auth?.currentUser));
+
+    function handleSignOut(): void {
+        auth?.logout();
+        setUserLogged(false);
+    }
 
   return (
     <Navbar>
@@ -34,41 +42,36 @@ function Header() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end">
-        {userLogged ? (
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Avatar as="button" isBordered />
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownItem>
-                <p className="font-semibold">Sesion iniciada como:</p>
-                <p className="font-semibold">juan@carlos.com</p>
-              </DropdownItem>
-              <DropdownItem
-                key="logout"
-                color="danger"
-                onClick={() => setUserLogged(false)}
-              >
-                Cerrar sesion
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        ) : (
-          <>
-            <NavbarItem>
-              <Link href="/login">Iniciar sesion</Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Button as={Link} color="primary" href="/signup" variant="flat">
-                Registro
-              </Button>
-            </NavbarItem>
-          </>
-        )}
-      </NavbarContent>
-    </Navbar>
-  );
+            <NavbarContent justify="end">
+                {userLogged ? (
+                    <Dropdown placement="bottom-end">
+                        <DropdownTrigger>
+                            <Avatar as ="button" isBordered />
+                        </DropdownTrigger>
+                        <DropdownMenu>
+                            <DropdownItem>
+                                <p className="font-semibold">!Hola, {auth?.currentUser?.upn}!</p>
+                            </DropdownItem>
+                            <DropdownItem key="logout" color="danger" onClick={() => handleSignOut()}>
+                                Cerrar sesion
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                ) : (
+                    <>
+                        <NavbarItem>
+                            <Link href="/login">Iniciar sesion</Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Button as={Link} color="primary" href="/signup" variant="flat">
+                                Registro
+                            </Button>
+                        </NavbarItem>
+                    </>
+                )}
+            </NavbarContent>
+        </Navbar>
+    );
 }
 
 export default Header;
