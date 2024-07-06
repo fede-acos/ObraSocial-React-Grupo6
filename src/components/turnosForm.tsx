@@ -4,9 +4,8 @@ import { SpecialistDto } from "../types/SpecialistDto";
 import { isWeekend, CalendarDate} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
 import { useEffect, useState } from "react";
-import { useEntity } from "../services/useApi";
 import { TurnoDto } from "../types/TurnoDto";
-import './turnosForm.css'
+import './styles/turnosForm.css'
 import generateTimeSlots from "../utils/generador.horarios.specialist";
 import { Medkit } from 'react-ionicons'
 import Swal from 'sweetalert2'
@@ -20,6 +19,8 @@ interface FormTurnosProps {
     specialist: SpecialistDto;
     turnos: TurnoDto[]
     turno: TurnoDtoResponse | undefined ;
+    onUpdate: (turno: TurnoDtoResponse) => void;
+    onAdd: (turno: TurnoDto) => void;
 }
 interface FormValues  {
     motivoConsulta: string
@@ -27,7 +28,7 @@ interface FormValues  {
     selectedButtonTime : string | null
 }
 
-function TurnosForm ({ specialist, turnos, turno }: FormTurnosProps) {
+function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosProps) {
     const { control, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: { 
             motivoConsulta: turno ? turno.motivoConsulta : "",
@@ -40,16 +41,6 @@ function TurnosForm ({ specialist, turnos, turno }: FormTurnosProps) {
     const selectedDate  = watch('selectedDate');
     const [formattedDate, setFormattedDate] = useState<string | null>(null); 
     const navigate = useNavigate();
-
-    const { add } = useEntity<TurnoDto>(
-        "turno",
-        "http://localhost:8080/turnos",
-        null
-        );
-
-    const handleAdd = async (newEntity: TurnoDto) => {
-        await add.mutateAsync(newEntity);
-    };
 
     const {locale} = useLocale();
 
@@ -84,28 +75,50 @@ function TurnosForm ({ specialist, turnos, turno }: FormTurnosProps) {
             const { year, month, day } = data.selectedDate;
             const dateObj = new Date(year, month - 1, day);
             const formattedDate = dateObj.toISOString().split('T')[0];
-            
-            if (data.selectedButtonTime){
-            const turnoData: TurnoDto = {
-                    especialistaId: specialist.id,
-                    fecha: formattedDate,
-                    hora: data.selectedButtonTime,
-                    motivoConsulta: data.motivoConsulta,
-                };
-            
-                handleAdd(turnoData)
-                Swal.fire({
-                    title: "¡Muchas Gracias!",
-                    text: "Su reserva se ha realizado con exito",
-                    icon: "success"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate("/mis-turnos")
-                    }
-                });                 
+
+            if (data.selectedButtonTime && turno === undefined ){
+                const turnoData: TurnoDto = {
+                        especialistaId: specialist.id,
+                        fecha: formattedDate,
+                        hora: data.selectedButtonTime,
+                        motivoConsulta: data.motivoConsulta,
+                    };
+                    
+                    onAdd(turnoData)
+                    Swal.fire({
+                        title: "¡Muchas Gracias!",
+                        text: "Su reserva se ha realizado con exito",
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate("/mis-turnos")
+                        }
+                    });                 
+                } else if (data.selectedButtonTime && turno){
+    
+                    const turnoData: TurnoDtoResponse = {
+                        turnoId: turno.turnoId,
+                        pacienteId: turno.pacienteId,
+                        especialistaId: specialist.id,
+                        fecha: formattedDate,
+                        hora: data.selectedButtonTime,
+                        motivoConsulta: data.motivoConsulta,
+                    };
+                
+                    onUpdate(turnoData)
+                    
+                    Swal.fire({
+                        title: "¡Muchas Gracias!",
+                        text: "Su reserva se ha modificado con exito",
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate("/mis-turnos")
+                        }
+                    });         
+                }
             }
-        }
-    }   
+        }   
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form-container">

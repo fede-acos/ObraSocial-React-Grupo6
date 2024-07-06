@@ -2,9 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import TurnosForm from '../components/turnosForm';
 import './styles/turnos.css'
 import { useEffect } from 'react';
-import { useEntities } from '../services/useApi';
+import { useEntities, useEntity } from '../services/useApi';
 import { TurnoDto } from '../types/TurnosDto';
 import { Spinner } from '@nextui-org/react';
+import { TurnoDtoResponse } from '../types/TurnoDtoResponse';
+
 
 
 function Turnos () {  
@@ -18,6 +20,13 @@ function Turnos () {
         "http://localhost:8080/turnos"
     );
 
+    const { add, update } = useEntity<TurnoDto>(
+        "turno",
+        "http://localhost:8080/turnos",
+        turno ? turno.turnoId.toString() : null
+        );
+
+
     useEffect(() => {
         if (!location.state || !location.state.specialist) {
             navigate('/cartilla');
@@ -29,6 +38,14 @@ function Turnos () {
     }
 
     const { specialist } = location.state;   
+
+    const handleAdd = async (newEntity: TurnoDto) => {
+        await add.mutateAsync(newEntity);
+    };
+    
+    const handleUpdate = async (newEntity: TurnoDtoResponse) => {
+        await update.mutateAsync(newEntity);
+    };
 
     if (isLoading || !data) {
         return (
@@ -44,7 +61,9 @@ function Turnos () {
             <TurnosForm 
             specialist={specialist}
             turnos={data}
-            turno={turno} />
+            turno={turno}
+            onUpdate={handleUpdate}
+            onAdd={handleAdd}  />
         </div>
     </div>
     );
