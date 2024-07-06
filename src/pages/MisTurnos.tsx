@@ -30,8 +30,8 @@ function MisTurnos() {
       "http://localhost:8080/especialistas"
     );
 
-  const handleEdit = (turno: TurnoDto) => {
-    navigate("/turnos", { state: { turno: turno } });
+  const handleEdit = (turno: TurnoDto, specialist : SpecialistDto | undefined) => {
+    navigate("/turnos", { state: { turno: turno, specialist: specialist} });
   };
 
   const handleDelete = async (turnoId: number) => {
