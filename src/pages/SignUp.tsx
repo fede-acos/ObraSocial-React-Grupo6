@@ -1,18 +1,30 @@
 import { Button, Input, Link } from "@nextui-org/react";
 import { useState } from "react";
 import { useRegister } from "../services/useRegister";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [memberNumber, setMemberNumber] = useState("");
+  const [username, setUsername] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [numeroAfiliado, setNumeroAfiliado] = useState<number>(0);
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const { mutate } = useRegister();
 
   const handleSignUp = async () => {
-    //   mutate({ username, password, name, lastName, memberNumber });
+    if (username === "" || password === "" || nombre === "" || apellido === "" || numeroAfiliado === +'') {
+      toast.error("Todos los campos son obligatorios");
+    }
+    else if (password !== passwordConfirmation) {
+      toast.error("Las contraseñas no coinciden");
+    }
+    else if (password.length < 8) {
+      toast.error("La contraseña debe tener al menos 8 caracteres");
+    }
+    else{
+      mutate({ username, password, nombre, apellido, numeroAfiliado, direccion: "" });
+    }
   };
 
   return (
@@ -31,25 +43,25 @@ const SignUp = () => {
           <Input
             type="text"
             label="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             className="py-2"
           />
           <Input
             type="text"
             label="Nombre"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setNombre(e.target.value)}
             className="py-2"
           />
           <Input
             type="text"
             label="Apellido"
-            onChange={(e) => setLastName(e.target.value)}
+            onChange={(e) => setApellido(e.target.value)}
             className="py-2"
           />
           <Input
-            type="text"
+            type="number"
             label="Nro. de Afiliado"
-            onChange={(e) => setMemberNumber(e.target.value)}
+            onChange={(e) => setNumeroAfiliado(parseInt(e.target.value))}
             className="py-2"
           />
           <Input
