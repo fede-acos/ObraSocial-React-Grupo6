@@ -7,13 +7,12 @@ import { useEntities, useEntity } from "../services/useApi";
 import { SpecialistDto } from "../types/SpecialistDto";
 import { TurnoDto } from "../types/TurnoDto";
 import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
-import { TurnosWithSpecialist } from "../types/TurnoWithSpecialist";
 
 function MisTurnos() {
   const [filterValue, setFilterValue] = useState("");
   const navigate = useNavigate();
 
-  const { data, isLoading, isError } = useEntities<TurnoDtoResponse>(
+  const { data, isLoading } = useEntities<TurnoDtoResponse>(
     "turnos",
     "http://localhost:8080/turnos"
   );
@@ -53,7 +52,7 @@ function MisTurnos() {
     setFilterValue("");
   }, []);
 
-  function addSpecialistNameToTurno(
+  function addSpecialistToTurno(
     turnos: TurnoDtoResponse[] | undefined
   ): (TurnoDtoResponse & SpecialistDto)[] {
     const specialistMap = new Map<number, SpecialistDto>();
@@ -111,7 +110,7 @@ function MisTurnos() {
               />
             </div>
             {filterTurnosBySpecialistName(
-              addSpecialistNameToTurno(data),
+              addSpecialistToTurno(data),
               filterValue
             )?.map((turno) => (
               <TurnoCard

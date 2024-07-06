@@ -23,7 +23,7 @@ export const useLogin = () => {
       toast.success("Bienvenido");
       auth?.login(data);
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("Usuario o contraseña incorrecta");
     },
   });

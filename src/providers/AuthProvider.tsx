@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("test1" + token);
     if (token) {
       const decodedToken = jwtDecode(token) as CustomJwtPayload;
       setCurrentUser(decodedToken);
@@ -39,7 +38,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const login = (token: string) => {
-    console.log("test");
     localStorage.setItem("token", token);
     const decodedToken = jwtDecode(token) as CustomJwtPayload;
     setCurrentUser(decodedToken);
