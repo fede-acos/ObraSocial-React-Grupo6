@@ -24,15 +24,6 @@ export const useEntity = <T>(
       type: "active",
     });
 
-  const entity = useQuery<T, Error>({
-    queryKey: [key, id],
-    queryFn: async (): Promise<T> => {
-      const { data } = await axiosInstance.get<T>(`${url}/${id}`);
-      return data;
-    },
-    enabled: !!id,
-  });
-
   const add = useMutation<T, Error, T>({
     mutationFn: async (entity: T): Promise<T> => {
       const { data } = await axiosInstance.post<T>(url, entity);
