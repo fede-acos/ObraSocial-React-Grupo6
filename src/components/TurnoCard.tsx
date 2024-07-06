@@ -15,7 +15,7 @@ interface TurnoCardProps {
   turno: TurnoDtoResponse;
   specialistData: SpecialistDto[] | undefined;
   loadingSpecialist: boolean;
-  onEdit: (turno: TurnoDto) => void;
+  onEdit: (turno: TurnoDto, specialist?: SpecialistDto) => void;
   onDelete: (turnoId: number) => void;
 }
 
@@ -46,6 +46,10 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
     return specialist?.nombre || "";
   };
 
+  const findSpecialist = (id: number) : SpecialistDto | undefined=> {
+    return specialistData?.find(specialist => specialist.id === id);
+  };
+
   return (
     <>
       {loadingSpecialist ? (
@@ -69,7 +73,7 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
               </PopoverTrigger>
               <PopoverContent>
                 <div className=" flex flex-col px-1 py-2 gap-2 ">
-                  <Button className="text-small " onClick={() => onEdit(turno)}>
+                  <Button className="text-small " onClick={() => onEdit(turno, findSpecialist(turno.especialistaId))}>
                     Editar
                   </Button>
                   <Button

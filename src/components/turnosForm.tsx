@@ -11,11 +11,13 @@ import generateTimeSlots from "../utils/generador.horarios.specialist";
 import { Medkit } from 'react-ionicons'
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
+import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
 
 
 interface FormTurnosProps {
     specialist: SpecialistDto;
     turnos: TurnoDto[]
+    turno: TurnoDtoResponse | undefined ;
 }
 interface FormValues  {
     motivoConsulta: string
