@@ -7,13 +7,16 @@ import {
   PopoverTrigger,
   Spinner,
 } from "@nextui-org/react";
-import { TurnoDto } from "../types/TurnoDto";
-import { TurnosWithSpecialist } from "../types/TurnoWithSpecialist";
+import { SpecialistDto } from "../types/SpecialistDto";
+import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
 
 interface TurnoCardProps {
-  turno: TurnosWithSpecialist;
+  turno: TurnoDtoResponse & SpecialistDto;
   loading: boolean;
-  onEdit: (turno: TurnoDto) => void;
+  onEdit: (
+    turno: TurnoDtoResponse,
+    specialist: SpecialistDto | undefined
+  ) => void;
   onDelete: (turnoId: number) => void;
 }
 
@@ -47,7 +50,7 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
           <Card className="w-full  flex flex-row items-center px-2 gap-2 min-h-20 xl:min-h-32 justify-around xl:text-2xl  ">
             <Avatar showFallback className="hidden md:block lg:w-14 lg:h-14" />
             <span className="w-20 md:w-28 xl:w-40 2xl:w-48">
-              <p>{turno.nombreEspecialista}</p>
+              <p>{turno.especialidad}</p>
             </span>
 
             <span className="">{formatDate(turno.fecha)}</span>
@@ -65,7 +68,7 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
                 <div className=" flex flex-col px-1 py-2 gap-2 ">
                   <Button
                     className="text-small  "
-                    onClick={() => onEdit(turno)}
+                    onClick={() => onEdit(turno, turno)}
                   >
                     Editar
                   </Button>
