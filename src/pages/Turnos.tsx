@@ -1,7 +1,7 @@
 import { Spinner } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import TurnosForm from "../components/turnosForm";
+import TurnosForm from "../components/TurnosForm";
 import { useEntities, useEntity } from "../services/useApi";
 import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
 import { TurnoDto } from "../types/TurnosDto";
