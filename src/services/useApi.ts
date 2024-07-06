@@ -38,9 +38,8 @@ export const useEntity = <T>(
       const { data } = await axiosInstance.post<T>(url, entity);
       return data;
     },
-    onSuccess: (addedEntity) => {
+    onSuccess: () => {
       invalidateActive();
-      //TODO Optimistic Updates.
     },
   });
 
@@ -49,20 +48,34 @@ export const useEntity = <T>(
       const { data } = await axiosInstance.put<T>(`${url}/${id}`, entity);
       return data;
     },
-    onSuccess: (addedEntity) => {
+    onSuccess: () => {
       invalidateActive();
-      //TODO Optimistic Updates.
     },
   });
 
   const remove = useMutation<string, Error, string>({
     mutationFn: async (id: string): Promise<string> => {
       await axiosInstance.delete<T>(`${url}/${id}`);
-      return id; //quizas nuestra api deberia devolver el id del elemento borrado.
+      return id;
     },
-    onSuccess: (deleted) => {
+    onSuccess: (deletedEntity) => {
       invalidateActive();
-      //TODO Optimistic Updates.
+    },
+    onSettled: () => {
+      invalidateActive();
+    },
+    onMutate: async (deletedEntity) => {
+      await queryClient.cancelQueries({ queryKey: [key], exact: true });
+
+      const previousEntities = queryClient.getQueryData<T[]>([key]);
+
+      if (previousEntities) {
+        queryClient.setQueryData<T[]>([key], (old) =>
+          old ? old.filter((entity) => entity !== deletedEntity) : []
+        );
+      }
+
+      return { previousEntities };
     },
   });
   return {
