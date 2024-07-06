@@ -57,7 +57,6 @@ export const useEntity = <T>(
     },
   });
   return {
-    entity,
     add,
     update,
     remove,
