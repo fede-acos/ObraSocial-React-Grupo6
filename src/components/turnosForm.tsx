@@ -123,13 +123,11 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form-container">
         <div className="form-block flex items-center">
-            {/* Columna 1: Icono Medkit */}
             <div className="flex-shrink-0 mr-4">
                 <Medkit  />
 
             </div>
 
-            {/* Columna 2: Información del Especialista */}
             <div className="text-left">
                 <h1 className="text-3xl font-bold">{specialist.nombre}</h1>
                 <br/>
@@ -182,7 +180,7 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
         <div className="form-block">
             <h2><b>Seleccione un horario</b></h2>
             <div className="time-slots">
-                {generateTimeSlots(turnos, specialist).map((time, index) => (
+                {generateTimeSlots(turnos, specialist, turno, selectedDate).map((time, index) => (
                 <Controller
                     key={index}
                     name="selectedButtonTime"
