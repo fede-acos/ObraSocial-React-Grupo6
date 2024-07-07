@@ -1,52 +1,59 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
-  Avatar,
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
+    Avatar,
+    Button,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Link,
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    NavbarItem,
 } from "@nextui-org/react";
-import React from "react";
 
 import Logo from "../assets/logo.svg";
 import { useAuth } from "../hooks/useAuth";
+import { DarkModeSwitcher } from "./DarkModeSwitcher";
+
 
 function Header() {
     const auth = useAuth();
     const [userLogged, setUserLogged] = useState(Boolean(auth?.currentUser));
+    
 
     function handleSignOut(): void {
         auth?.logout();
         setUserLogged(false);
     }
 
-  return (
-    <Navbar>
-      <NavbarBrand>
-        <img src={Logo} alt="AllMedin Logo" />
-        <p className="font-bold text-inherit">AllMedin</p>
-      </NavbarBrand>
+    return (
+        <Navbar>
+            <NavbarBrand>
+                <img src={Logo} alt="AllMedin Logo" />
+                <p className="font-bold text-inherit">AllMedin</p>
+            </NavbarBrand>
 
-      <NavbarContent justify="center">
-        <NavbarItem>
-          <Link href="/mis-turnos">Mis turnos</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="/">Cartilla medica</Link>
-        </NavbarItem>
-      </NavbarContent>
+            <NavbarContent justify="center">
+                <NavbarItem>
+                    <Link href="/mis-turnos">Mis turnos</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link href="/">Cartilla medica</Link>
+                </NavbarItem>
+            </NavbarContent>
+
 
             <NavbarContent justify="end">
+                <NavbarItem>
+                    <DarkModeSwitcher />
+                </NavbarItem>
+
                 {userLogged ? (
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
-                            <Avatar as ="button" isBordered />
+                            <Avatar as="button" isBordered />
                         </DropdownTrigger>
                         <DropdownMenu>
                             <DropdownItem>
