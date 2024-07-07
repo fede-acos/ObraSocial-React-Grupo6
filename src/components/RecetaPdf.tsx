@@ -67,7 +67,7 @@ const RecetaPdf: React.FC<PdfProps> = ({ receta}: PdfProps) => {
     return (
         
       <div className="flex flex-col items-center justify-center min-h-500">
-        <MyDocument receta={receta}></MyDocument>
+        <MyDocument receta={recetaParaPdf}></MyDocument>
         {receta && 
             <PDFDownloadLink document={<MyDocument receta={recetaParaPdf} />} fileName="receta.pdf">
             {({ loading }) => (loading ? 'Cargando documento...' : 'Descargar')}
