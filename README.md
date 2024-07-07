@@ -35,7 +35,7 @@ Puede consultar nuestro prototipo de diseño empleado [aqui]().
 - [**react-ionicons**](https://ionic.io/ionicons): Libreria de iconos para react.
 - [**react-router-dom**](https://reactrouter.com/en/main): Para manejar el ruteo dentro de la aplicacion.
 - [**react-toastify**](https://apvarun.github.io/toastify-js/): Provee notificaciones del tipo toast.
-- [**sweetalert2**:]([SweetAlert2 - a beautiful, responsive, customizable and accessible (WAI-ARIA) replacement for JavaScript's popup boxes](https://sweetalert2.github.io/)) Alertas customizables en forma de ventanas modales.
+- [**sweetalert2**:](https://sweetalert2.github.io/) Alertas customizables en forma de ventanas modales.
 - [**typescript**:](https://www.typescriptlang.org/) Compilador del lenguaje Typescript
 - [**usehooks-ts**:](https://usehooks-ts.com/) Utilizamos uno de sus hooks para implementar modo oscuro global.
 - **@vitejs/plugin-react**: Plugin de Vite para React.
@@ -45,6 +45,6 @@ Puede consultar nuestro prototipo de diseño empleado [aqui]().
 ## Instalacion y ejecucion:
 
 1. Clonar el repositorio.
-2. Instalar [npm]([Downloading and installing Node.js and npm | npm Docs (npmjs.com)](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)) en caso de no tenerlo.
+2. Instalar [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) en caso de no tenerlo.
 3. Desde el directorio del repositorio, correr el comando `npm install` para instalar dependencias.
 4. Iniciar el servidor de desarrollo con `npm run dev`.
