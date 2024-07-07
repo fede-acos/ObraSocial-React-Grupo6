@@ -9,6 +9,10 @@ import {
 } from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
 import { TurnoDtoResponse } from "../types/TurnoDtoResponse";
+import { useNavigate } from "react-router-dom";
+import { useEntity } from "../services/useApi";
+import { useState } from "react";
+import { RecetaDto } from "../types/RecetaDto";
 
 interface TurnoCardProps {
   turno: TurnoDtoResponse & SpecialistDto;
@@ -34,6 +38,32 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
       year: "numeric",
     });
   };
+
+  const navigate = useNavigate();
+  const [turnoId, setTurnoId] = useState<string | null>(null);
+
+
+  const { entity } = useEntity<RecetaDto>(
+    "recetas",
+    "http://localhost:8080/recetas",
+    turnoId ? turnoId: null
+  );
+
+  const handleTurnoId = (id: string) => {
+    setTurnoId(id);
+
+    if (entity.data){
+    const recetaDownload: RecetaDto = {
+      turnoId: turno.turnoId,
+      receta: entity.data.receta,
+      fechaCreacion: entity.data.fechaCreacion,
+      fechaValidez: entity.data.fechaValidez
+      }
+
+      navigate("/receta", { state: { recetaDownload: recetaDownload } });
+    }
+  };
+  
 
   const formatHour = (time: string) => {
     return time.substring(0, 5);
@@ -78,7 +108,9 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
                   >
                     Cancelar
                   </Button>
-                  <Button className="text-small"> Descargar Receta</Button>
+                  <Button className="text-small"
+                  onClick={() => handleTurnoId(turno.turnoId.toString())}
+                  > Descargar Receta</Button>
                 </div>
               </PopoverContent>
             </Popover>
