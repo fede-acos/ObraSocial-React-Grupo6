@@ -1,4 +1,4 @@
-import { Spinner } from "@nextui-org/react";
+import { Card, Spinner } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import TurnosForm from "../components/TurnosForm";
@@ -52,8 +52,8 @@ function Turnos() {
     );
   }
   return (
-    <div className="container-turnos">
-      <div className="centered-content">
+    <Card className="container-turnos">
+      <Card className="centered-content">
         <h2>Turnos con {specialist.nombre}</h2>
         <TurnosForm
           specialist={specialist}
@@ -62,8 +62,8 @@ function Turnos() {
           onUpdate={handleUpdate}
           onAdd={handleAdd}
         />
-      </div>
-    </div>
+      </Card>
+    </Card>
   );
 }
 
