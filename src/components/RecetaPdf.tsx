@@ -5,23 +5,23 @@ import { Card } from "@nextui-org/react";
 
 
 const MyDocument = ({ receta }: { receta: RecetaParaPdf | null }) => (
-    <Card>
+
         <Document>
-        <Page size="A4" style={styles.page}>
-            <View style={styles.header}>
-            <Text style={styles.title}>Receta Médica</Text>
-            </View>
-            <View style={styles.section}>
-            <Text style={styles.label}>ID del Turno:</Text>
-            <Text style={styles.text}>{receta?.turnoId}</Text>
-            </View>
-            <View style={styles.section}>
-            <Text style={styles.label}>Descripción:</Text>
-            <Text style={styles.text}>{receta?.receta}</Text>
-            </View>
-        </Page>
+            <Page size="A4" style={styles.page}>
+                <View style={styles.header}>
+                <Text style={styles.title}>Receta Médica</Text>
+                </View>
+                <View style={styles.section}>
+                <Text style={styles.label}>ID del Turno:</Text>
+                <Text style={styles.text}>{receta?.turnoId}</Text>
+                </View>
+                <View style={styles.section}>
+                <Text style={styles.label}>Descripción:</Text>
+                <Text style={styles.text}>{receta?.receta}</Text>
+                </View>
+            </Page>
         </Document>
-    </Card>
+
   );
   
   const styles = StyleSheet.create({
