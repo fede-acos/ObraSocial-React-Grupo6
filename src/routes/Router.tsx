@@ -5,6 +5,7 @@ import MisTurnos from "../pages/MisTurnos";
 import SignUp from "../pages/SignUp";
 import Turnos from "../pages/Turnos";
 import { ProtectedRoute } from "./ProtectedRoute";
+import Receta from "../pages/Receta";
 
 function Router() {
   return (
@@ -32,6 +33,14 @@ function Router() {
         element={
           <ProtectedRoute>
             <Turnos />
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route
+        path="/receta"
+        element={
+          <ProtectedRoute>
+            <Receta/>
           </ProtectedRoute>
         }
       ></Route>

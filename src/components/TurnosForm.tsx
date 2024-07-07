@@ -1,5 +1,5 @@
 import {useForm, Controller, SubmitHandler, useWatch } from "react-hook-form"
-import {Button, Calendar, DateValue, Textarea} from "@nextui-org/react";
+import {Button, Calendar, DateValue, Textarea, Card} from "@nextui-org/react";
 import { SpecialistDto } from "../types/SpecialistDto";
 import { isWeekend, CalendarDate, getLocalTimeZone, today} from "@internationalized/date";
 import {useLocale} from "@react-aria/i18n";
@@ -118,6 +118,7 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
         }   
 
     return (
+        <Card>
         <form onSubmit={handleSubmit(onSubmit)} className="form-container">
         <div className="form-block flex items-center">
             <div className="flex-shrink-0 mr-4">
@@ -205,6 +206,7 @@ function TurnosForm ({ specialist, turnos, turno, onUpdate, onAdd }: FormTurnosP
             <Button size="lg" color="primary" type="submit">Confirmar</Button>
         </div>
         </form>
+    </Card>
     )
 }
 
