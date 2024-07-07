@@ -1,0 +1,29 @@
+.container-turnos {
+    margin: 5px auto 0; 
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+}
+
+.centered-content {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 1, 0.1);
+    border: 1px solid #ddd;
+    max-width: 1000px;
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px; 
+    }
+}
+
+

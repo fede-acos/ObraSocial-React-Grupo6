@@ -14,9 +14,15 @@
     "@tanstack/react-query": "^5.48.0",
     "axios": "^1.7.2",
     "framer-motion": "^11.2.12",
+    "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.24.0"
+    "react-hook-form": "^7.52.1",
+    "react-ionicons": "^4.2.1",
+    "react-router-dom": "^6.24.0",
+    "react-toastify": "^10.0.5",
+    "sweetalert2": "^11.12.1",
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

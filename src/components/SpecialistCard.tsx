@@ -1,0 +1,46 @@
+import {
+  Avatar,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Input,
+} from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import { SpecialistDto } from "../types/SpecialistDto";
+
+function SpecialistCard({ specialist }: { specialist: SpecialistDto }) {
+  const navigate = useNavigate();
+
+  const handleClickTurno = () => {
+    navigate("/turnos", { state: { specialist: specialist } });
+  };
+
+  return (
+    <>
+      <Card className="w-full sm:w-96 ">
+        <CardHeader className="flex justify-between">
+          <div className="flex gap-4">
+            <Avatar showFallback size="sm" />
+            <div>
+              <h1>{specialist.nombre}</h1>
+              <h2>{specialist.especialidad}</h2>
+            </div>
+          </div>
+          <Button size="md" color="primary" onClick={() => handleClickTurno()}>
+            Reservar Turno
+          </Button>
+        </CardHeader>
+        <Divider />
+        <CardBody>
+          <p>
+            {specialist.ubicacion.ciudad} {specialist.ubicacion.provincia}
+          </p>
+        </CardBody>
+      </Card>
+    </>
+  );
+}
+
+export default SpecialistCard;
