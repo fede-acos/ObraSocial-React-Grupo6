@@ -59,10 +59,8 @@ const TurnoCard: React.FC<TurnoCardProps> = ({
       fechaCreacion: entity.data.fechaCreacion,
       fechaValidez: entity.data.fechaValidez
       }
-    
 
       navigate("/receta", { state: { recetaDownload: recetaDownload } });
-
     }
   };
   
